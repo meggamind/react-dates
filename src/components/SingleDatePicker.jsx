@@ -551,7 +551,9 @@ class SingleDatePicker extends React.Component {
 
     const displayValue = this.getDateString(date);
 
-    const onOutsideClick = (!withPortal && !withFullScreenPortal) ? this.onClearFocus : undefined;
+    const enableOutsideClick = (!withPortal && !withFullScreenPortal);
+    const Wrapper = enableOutsideClick ? OutsideClickHandler : 'div';
+    const wrapperProps = enableOutsideClick ? { onOutsideClick: this.onClearFocus } : {};
 
     const hideFang = verticalSpacing < FANG_HEIGHT_PX;
 
@@ -563,7 +565,7 @@ class SingleDatePicker extends React.Component {
           block && styles.SingleDatePicker__block,
         )}
       >
-        <OutsideClickHandler onOutsideClick={onOutsideClick}>
+        <Wrapper {...wrapperProps}>
           <SingleDatePickerInput
             id={id}
             placeholder={placeholder}
@@ -598,7 +600,7 @@ class SingleDatePicker extends React.Component {
           />
 
           {this.maybeRenderDayPickerWithPortal()}
-        </OutsideClickHandler>
+        </Wrapper>
       </div>
     );
   }
